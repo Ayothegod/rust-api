@@ -1,7 +1,8 @@
-pub mod routes;
+pub mod todos;
+pub mod books_api;
 
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-// use crate::routes::todo;
+// use crate::books_api::books;
 
 #[tokio::main]
 async fn main() {
@@ -14,8 +15,10 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
+    // books::check();
+
     // Compose the routes
-    let app = routes::create_router();
+    let app = todos::create_router();
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await

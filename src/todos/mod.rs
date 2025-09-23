@@ -3,11 +3,12 @@ pub mod todo;
 use axum::{
     Router,
     error_handling::HandleErrorLayer,
-    http::StatusCode,
+    http::{HeaderValue, StatusCode},
     routing::{get, patch},
 };
 use std::time::Duration;
 use tower::{BoxError, ServiceBuilder};
+use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
 
 pub fn create_router() -> Router {
@@ -16,7 +17,10 @@ pub fn create_router() -> Router {
 
     Router::new()
         .route("/todos", get(todo::todos_index).post(todo::todos_create))
-        .route("/todos/{id}", patch(todo::todos_update).delete(todo::todos_delete))
+        .route(
+            "/todos/{id}",
+            patch(todo::todos_update).delete(todo::todos_delete),
+        )
         // Add middleware to all routes
         .layer(
             ServiceBuilder::new()
@@ -32,6 +36,10 @@ pub fn create_router() -> Router {
                 }))
                 .timeout(Duration::from_secs(10))
                 .layer(TraceLayer::new_for_http())
+                .layer(
+                    CorsLayer::new()
+                        .allow_origin("http://localhost:5173".parse::<HeaderValue>().unwrap()),
+                )
                 .into_inner(),
         )
         .with_state(db)
