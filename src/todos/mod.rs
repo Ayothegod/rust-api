@@ -6,14 +6,22 @@ use axum::{
     http::{HeaderValue, StatusCode},
     routing::{get, patch},
 };
-use std::time::Duration;
+use serde::Serialize;
+use std::{sync::atomic::AtomicU32, time::Duration};
 use tower::{BoxError, ServiceBuilder};
 use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
+use std::{
+    collections::HashMap,
+    sync::{Arc, RwLock},
+};
+use uuid::Uuid;
+
 
 pub fn create_router() -> Router {
-    //let db = Db::default();
-    let db = todo::Db::default();
+    
+    // let db = todo::Db::default();
+    let state = AppState::default();
 
     Router::new()
         .route("/todos", get(todo::todos_index).post(todo::todos_create))
@@ -42,5 +50,18 @@ pub fn create_router() -> Router {
                 )
                 .into_inner(),
         )
-        .with_state(db)
+        .with_state(state)
+}
+
+#[derive(Debug, Serialize, Clone)]
+pub struct Todo {
+    id: Uuid,
+    text: String,
+    completed: bool,
+}
+
+#[derive(Default, Clone)]
+pub struct AppState {
+    db: Arc<RwLock<HashMap<Uuid, Todo>>>,
+    no_of_users: Arc<AtomicU32>
 }
