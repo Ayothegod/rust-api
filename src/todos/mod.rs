@@ -3,24 +3,22 @@ pub mod todo;
 use axum::{
     Router,
     error_handling::HandleErrorLayer,
+    extract::{MatchedPath, Request},
     http::{HeaderValue, StatusCode},
     routing::{get, patch},
 };
 use serde::Serialize;
-use std::{sync::atomic::AtomicU32, time::Duration};
-use tower::{BoxError, ServiceBuilder};
-use tower_http::cors::CorsLayer;
-use tower_http::trace::TraceLayer;
 use std::{
     collections::HashMap,
     sync::{Arc, RwLock},
 };
+use std::{sync::atomic::AtomicU32, time::Duration};
+use tower::{BoxError, ServiceBuilder};
+use tower_http::cors::CorsLayer;
+use tower_http::trace::TraceLayer;
 use uuid::Uuid;
 
-
 pub fn create_router() -> Router {
-    
-    // let db = todo::Db::default();
     let state = AppState::default();
 
     Router::new()
@@ -43,7 +41,23 @@ pub fn create_router() -> Router {
                     }
                 }))
                 .timeout(Duration::from_secs(10))
-                .layer(TraceLayer::new_for_http())
+                .layer(
+                    TraceLayer::new_for_http()
+                        // Create our own span for the request and include the matched path. The matched
+                        // path is useful for figuring out which handler the request was routed to.
+                        .make_span_with(|req: &Request| {
+                            let method = req.method();
+                            let uri = req.uri();
+
+                            // axum automatically adds this extension.
+                            let matched_path = req
+                                .extensions()
+                                .get::<MatchedPath>()
+                                .map(|matched_path| matched_path.as_str());
+
+                            tracing::debug_span!("request", %method, %uri, matched_path)
+                        })
+                        .on_failure(()))
                 .layer(
                     CorsLayer::new()
                         .allow_origin("http://localhost:5173".parse::<HeaderValue>().unwrap()),
@@ -63,5 +77,5 @@ pub struct Todo {
 #[derive(Default, Clone)]
 pub struct AppState {
     db: Arc<RwLock<HashMap<Uuid, Todo>>>,
-    no_of_users: Arc<AtomicU32>
+    no_of_users: Arc<AtomicU32>,
 }

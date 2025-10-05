@@ -15,3 +15,8 @@
 // Responses — returning JSON, HTML, status codes.
 // Middleware — logging, error handling, authentication.
 // State Management — using axum::extract::State with Arc.
+
+
+2025-09-24T12:13:04.725169Z DEBUG request{method=GET uri=/todos version=HTTP/1.1}: tower_http::trace::on_response: finished processing request latency=0 ms status=200
+
+2025-09-24T12:17:11.434514Z DEBUG request{method=GET uri=/todos matched_path="/todos"}: tower_http::trace::on_response: finished processing request latency=0 ms status=200

@@ -1,5 +1,6 @@
 pub mod todos;
 pub mod books_api;
+pub mod error;
 
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 // use crate::books_api::books;
