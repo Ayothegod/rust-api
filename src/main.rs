@@ -29,20 +29,48 @@
 // }
 
 fn main() {
-    let text = String::from("The time is 10:00pm");
-    println!("Welcome to rust, {text}");
-
-    let number = 7;
-
-    if number < 5 {
-        println!("condition was true");
-    } else {
-        println!("condition was false");
+    fn plus_one(x: Option<i32>) {
+        match x {
+            None => println!("Error: Unable to work"),
+            Some(i) => {
+                let res = i + 1;
+                println!("Result concluded: {}", res)
+            }
+        }
     }
 
-    match number {
-        0 => println!("zero"),
-        1 => println!("one"),
-        _ => println!("something else"), // exhaustive wildcard. any other matches
+    let five = Some(5);
+
+    let six = plus_one(five);
+
+    let input = "whatsup";
+
+    fn reverse(input: &str) -> String {
+        // input.
     }
+    
+
+    // println!("Whatsup builders {:?}", six);
 }
+
+// solana-keygen new --outfile ~/my-solana-wallet/my-keypair.json
+// solana-keygen verify 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D ~/my-solana-wallet/my-keypair.json
+// pubkey: 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D
+
+// NOTE: connect to dev network
+// solana config set --url https://api.devnet.solana.com
+// solana config get
+// solana airdrop 1 <recipient-address> --url https://api.devnet.solana.com NOTE: confirm transaction on dev net block explorer
+// solana balance <account-address> --url https://api.devnet.solana.com
+
+// NOTE: transfer sol to another account (file-system wallets) >
+// solana transfer --from <keypair-path> <recipient-address> <amount> --fee-payer <keypair-path>
+
+// NOTE: check balance
+// solana balance <address> --url https://api.devnet.solana.com
+
+// TODO: send and reccieve funds using the command line
+// TODO: fizz buzz in rust: function that
+// (loop counting to 301, if count divisible by 3, print fizz, versa, 3.5 print fizzbuzz, at the end print no -f times fizzbuzz occured )
+
+// TODO: local validator: solana-test-validator
