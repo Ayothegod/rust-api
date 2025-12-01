@@ -10,7 +10,7 @@
 //     tracing_subscriber::registry()
 //         .with(
 //             tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-//                 format!("{}=debug,tower_http=debug", env!("CARGO_CRATE_NAME")).into()
+                // format!("{}=debug,tower_http=debug", env!("CARGO_CRATE_NAME")).into()
 //             }),
 //         )
 //         .with(tracing_subscriber::fmt::layer())
@@ -29,28 +29,11 @@
 // }
 
 fn main() {
-    fn plus_one(x: Option<i32>) {
-        match x {
-            None => println!("Error: Unable to work"),
-            Some(i) => {
-                let res = i + 1;
-                println!("Result concluded: {}", res)
-            }
-        }
-    }
-
-    let five = Some(5);
-
-    let six = plus_one(five);
-
     let input = "whatsup";
 
     fn reverse(input: &str) -> String {
         // input.
     }
-    
-
-    // println!("Whatsup builders {:?}", six);
 }
 
 // solana-keygen new --outfile ~/my-solana-wallet/my-keypair.json
