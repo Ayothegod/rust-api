@@ -31,7 +31,7 @@
 fn main() {
     let input = "whatsup";
 
-    fn reverse(input: &str) -> String {
+    fn reverse(input: &str) {
         // input.
     }
 }
