@@ -10,7 +10,7 @@
 //     tracing_subscriber::registry()
 //         .with(
 //             tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-                // format!("{}=debug,tower_http=debug", env!("CARGO_CRATE_NAME")).into()
+// format!("{}=debug,tower_http=debug", env!("CARGO_CRATE_NAME")).into()
 //             }),
 //         )
 //         .with(tracing_subscriber::fmt::layer())
@@ -36,24 +36,25 @@ fn main() {
     }
 }
 
-// solana-keygen new --outfile ~/my-solana-wallet/my-keypair.json
-// solana-keygen verify 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D ~/my-solana-wallet/my-keypair.json
-// pubkey: 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D
-
 // NOTE: connect to dev network
 // solana config set --url https://api.devnet.solana.com
 // solana config get
-// solana airdrop 1 <recipient-address> --url https://api.devnet.solana.com NOTE: confirm transaction on dev net block explorer
-// solana balance <account-address> --url https://api.devnet.solana.com
+
+// solana-keygen new --outfile ~/my-solana-wallet/my-keypair.json
+// solana-keygen verify 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D ~/my-solana-wallet/my-keypair.json
+
+// PENDING: ~/my-solana-wallet/my-keypair.json -> 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D
+// PENDING: ~/my-solana-wallet/account1.json -> BrV8o2Rt3rSibxnytxBrt4TfcCEAc5SjgYVCgf6iKNzc Phrase(account sleep skull fetch material plug slender august media episode fine concert)
+
+// solana airdrop 1 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D --url https://api.devnet.solana.com
+// solana balance 2Y1r73KU6w7SfbCEMPn1aiqpvjobozrNajz9Z1H6Ma8D --url https://api.devnet.solana.com
 
 // NOTE: transfer sol to another account (file-system wallets) >
-// solana transfer --from <keypair-path> <recipient-address> <amount> --fee-payer <keypair-path>
+// solana transfer --from ~/my-solana-wallet/my-keypair.json BrV8o2Rt3rSibxnytxBrt4TfcCEAc5SjgYVCgf6iKNzc 0.2 
+
+// --fee-payer <keypair-path>
 
 // NOTE: check balance
 // solana balance <address> --url https://api.devnet.solana.com
-
-// TODO: send and reccieve funds using the command line
-// TODO: fizz buzz in rust: function that
-// (loop counting to 301, if count divisible by 3, print fizz, versa, 3.5 print fizzbuzz, at the end print no -f times fizzbuzz occured )
 
 // TODO: local validator: solana-test-validator
